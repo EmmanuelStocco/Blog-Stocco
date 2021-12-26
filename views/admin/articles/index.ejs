@@ -1,0 +1,49 @@
+<%- include ("../../partials/header.ejs") %> 
+<%- include ("../../partials/navbar.ejs") %> 
+<div class="container">
+    <hr>
+    <h2> Artigos </h2>
+    <hr>
+    <a class="btn btn-success" href="/admin/articles/new">Criar novo artigo </a> <!-- button por classe para uso de ahref-->
+    <hr>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Titulo</th>
+                <th>Slug</th>
+                <th>Categoria</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody> 
+            <% articles.forEach((article, category) => { %>
+                <tr>
+                    <td><%= article.id %></td>
+                    <td><%= article.title %></td>
+                    <td><%= article.slug %></td>
+                    <td><%= article.categoryId %></td>
+                    <td>
+                        <form method="POST" action="/articles/delete" style="display: inline;" onsubmit="confirmarDelecao(event, this)"> <!-- sempre que um evento é disparado o onsubit é disparado, vamos usar isso para fazer uma verificação - estamos passando como parametro  a ação de submissão, this aq estamos falando do elemento q chama o envento(formulario )-->
+                            <input type="hidden" name="id" value="<%= article.id %>"> <!-- ca,´p escmdodp que pega o nameid-->
+                            <button class="btn btn-danger">Deletar</button>
+                        </form>
+                    </td>
+                  </tr>    
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+<%- include ("../../partials/footer.ejs") %>
+
+<script>
+    //Confirmando envio de DELETE
+    function confirmarDelecao(event, form){
+        event.preventDefault()
+        var decision = confirm("Você quer deletar este Artigo?")
+        if(decision){
+           form.submit() //passando true
+        }
+    }
+
+</script>
